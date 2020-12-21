@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.erudio.model.Person;
 import br.com.erudio.service.PersonService;
+import javassist.NotFoundException;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
 	
 	@Autowired
@@ -28,7 +29,7 @@ public class PersonController {
 	}	
 	
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") String id){
+	public Person findById(@PathVariable("id") Long id) throws NotFoundException{
 		return services.findById(id);
 			
 	}	
@@ -46,7 +47,7 @@ public class PersonController {
 	}	
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable("id") String id){
+	public void delete(@PathVariable("id") Long id){
 		 services.delete(id);			
 	}	
 	
