@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.erudio.converter.DozerConverter;
+import br.com.erudio.data.dto.PersonDTO;
 import br.com.erudio.data.model.Person;
 import br.com.erudio.exception.ResourceNotFoundException;
 import br.com.erudio.repositories.PersonRepository;
@@ -18,27 +20,37 @@ public class PersonService {
 	@Autowired
 	private PersonRepository personRepository;
 
-	public Person create(Person person) {
-		return personRepository.save(person);
+	public PersonDTO create(PersonDTO person) {
+		var entity = DozerConverter.parseObject(person, Person.class);
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
+		return vo;
 	}
 	
-	public List<Person> findAll() {
-		return personRepository.findAll();
+	public List<PersonDTO> findAll() {
+		return DozerConverter.parseListObjects(personRepository.findAll(),PersonDTO.class);
 	}
 
-	public Person findById(Long id) throws NotFoundException {
-		return personRepository.findById(id)
+	public PersonDTO findById(Long id) throws NotFoundException {
+		var entity =  personRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+		
+		return DozerConverter.parseObject(entity,PersonDTO.class);
+		
+		
 	}
 	
-	public Person update(Person person) {
-		 Person entity = personRepository.findById(person.getId())
+	public PersonDTO update(PersonDTO person) {
+		 var entity = personRepository.findById(person.getId())
 			.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+		 
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());
 		entity.setGenre(person.getGenre());
-		return personRepository.save(entity);
+		
+		var vo = DozerConverter.parseObject(personRepository.save(entity), PersonDTO.class);
+		
+		return vo;
 	}
 
 	public void delete(Long id) {

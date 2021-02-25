@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.erudio.data.model.Person;
+import br.com.erudio.data.dto.PersonDTO;
 import br.com.erudio.service.PersonService;
 import javassist.NotFoundException;
 
@@ -24,24 +24,24 @@ public class PersonController {
 	PersonService services;
 	
 	@GetMapping
-	public List<Person> findAll(){
+	public List<PersonDTO> findAll(){
 		return services.findAll();			
 	}	
 	
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") Long id) throws NotFoundException{
+	public PersonDTO findById(@PathVariable("id") Long id) throws NotFoundException{
 		return services.findById(id);
 			
 	}	
 	
 	@PostMapping
-	public Person create(@RequestBody Person person){
+	public PersonDTO create(@RequestBody PersonDTO person){
 		return services.create(person);
 			
 	}
 	
 	@PutMapping
-	public Person update(@RequestBody Person person){
+	public PersonDTO update(@RequestBody PersonDTO person){
 		return services.update(person);
 			
 	}	
