@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.erudio.data.dto.PersonDTO;
+import br.com.erudio.data.dto.PersonDTOV2;
 import br.com.erudio.service.PersonService;
 import javassist.NotFoundException;
 
@@ -37,6 +38,12 @@ public class PersonController {
 	@PostMapping
 	public PersonDTO create(@RequestBody PersonDTO person){
 		return services.create(person);
+			
+	}
+	
+	@PostMapping("/v2")
+	public PersonDTOV2 createV2(@RequestBody PersonDTOV2 person){
+		return services.createV2(person);
 			
 	}
 	
